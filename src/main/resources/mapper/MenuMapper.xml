@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pan.main.system.dao.TMenuDao">
+    <resultMap id="menu" type="com.pan.main.system.entity.TMenu">
+        <id column="menu_id" jdbcType="DECIMAL" property="menuId" />
+        <result column="menu_name" jdbcType="VARCHAR" property="menuName" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="perms" jdbcType="VARCHAR" property="perms" />
+    </resultMap>
+
+    <select id="findAdminPermissions" resultMap="menu">
+        SELECT
+        m.perms
+        FROM
+        t_role r
+        INNER JOIN t_admin_role ad ON (r.role_id = ad.role_id)
+        INNER JOIN t_admin u ON (u.admin_id = ad.admin_id)
+        INNER JOIN t_role_menu rm ON (rm.role_id = r.role_id)
+        INNER JOIN t_menu m ON (m.menu_id = rm.menu_id)
+        WHERE
+        u.adname = #{adname}
+        AND m.perms IS NOT NULL
+        AND m.perms  &lt;&gt; ''
+    </select>
+
+</mapper>

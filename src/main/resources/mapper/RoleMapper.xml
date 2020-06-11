@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pan.main.system.dao.TRoleDao">
+    <resultMap id="roleMap" type="com.pan.main.system.entity.TRole">
+        <result column="role_id" jdbcType="DECIMAL" property="roleId" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+    </resultMap>
+    <select id="findAdminRole" resultMap="roleMap">
+        SELECT
+            r.*
+        FROM
+            t_role r
+        INNER JOIN t_admin_role a ON (r.role_id = a.role_id)
+        INNER JOIN t_admin b ON (b.admin_id = a.admin_id)
+        WHERE
+            b.adname = #{adname}
+
+    </select>
+
+
+
+</mapper>
